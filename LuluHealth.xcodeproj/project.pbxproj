@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AF6F30FC2FAB642300461C0B /* LuluHealthWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AF6F30DC2FAB642200461C0B /* LuluHealthWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AF6F310E2FAB656E00461C0B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF6F310D2FAB656E00461C0B /* WidgetKit.framework */; };
+		AF6F31102FAB656E00461C0B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF6F310F2FAB656E00461C0B /* SwiftUI.framework */; };
+		AF6F311D2FAB656F00461C0B /* LuluHealthWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AF6F310B2FAB656E00461C0B /* LuluHealthWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AF7B00012FB0000100461C0B /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = AF7B00032FB0000100461C0B /* Lottie */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AF6F306B2FAB375700461C0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +29,71 @@
 			remoteGlobalIDString = AF6F30582FAB375500461C0B;
 			remoteInfo = LuluHealth;
 		};
+		AF6F30E92FAB642300461C0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF6F30512FAB375500461C0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF6F30DB2FAB642200461C0B;
+			remoteInfo = "LuluHealthWatch Watch App";
+		};
+		AF6F30F32FAB642300461C0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF6F30512FAB375500461C0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF6F30DB2FAB642200461C0B;
+			remoteInfo = "LuluHealthWatch Watch App";
+		};
+		AF6F30FA2FAB642300461C0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF6F30512FAB375500461C0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF6F30DB2FAB642200461C0B;
+			remoteInfo = "LuluHealthWatch Watch App";
+		};
+		AF6F311B2FAB656F00461C0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF6F30512FAB375500461C0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF6F310A2FAB656E00461C0B;
+			remoteInfo = LuluHealthWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AF6F31002FAB642300461C0B /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				AF6F30FC2FAB642300461C0B /* LuluHealthWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F31222FAB656F00461C0B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AF6F311D2FAB656F00461C0B /* LuluHealthWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AF6F30592FAB375500461C0B /* LuluHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuluHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF6F306A2FAB375700461C0B /* LuluHealthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LuluHealthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF6F30742FAB375700461C0B /* LuluHealthUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LuluHealthUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF6F30DC2FAB642200461C0B /* LuluHealthWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LuluHealthWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF6F30E82FAB642300461C0B /* LuluHealthWatch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LuluHealthWatch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF6F30F22FAB642300461C0B /* LuluHealthWatch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LuluHealthWatch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF6F310B2FAB656E00461C0B /* LuluHealthWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LuluHealthWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF6F310D2FAB656E00461C0B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
+		AF6F310F2FAB656E00461C0B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +103,13 @@
 				Info.plist,
 			);
 			target = AF6F30582FAB375500461C0B /* LuluHealth */;
+		};
+		AF6F31212FAB656F00461C0B /* Exceptions for "LuluHealthWidget" folder in "LuluHealthWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AF6F310A2FAB656E00461C0B /* LuluHealthWidgetExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -58,6 +132,29 @@
 			path = LuluHealthUITests;
 			sourceTree = "<group>";
 		};
+		AF6F30DD2FAB642200461C0B /* LuluHealthWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "LuluHealthWatch Watch App";
+			sourceTree = "<group>";
+		};
+		AF6F30EB2FAB642300461C0B /* LuluHealthWatch Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "LuluHealthWatch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		AF6F30F52FAB642300461C0B /* LuluHealthWatch Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "LuluHealthWatch Watch AppUITests";
+			sourceTree = "<group>";
+		};
+		AF6F31112FAB656E00461C0B /* LuluHealthWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AF6F31212FAB656F00461C0B /* Exceptions for "LuluHealthWidget" folder in "LuluHealthWidgetExtension" target */,
+			);
+			path = LuluHealthWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF7B00012FB0000100461C0B /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +180,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AF6F30D92FAB642200461C0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F30E52FAB642300461C0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F30EF2FAB642300461C0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F31082FAB656E00461C0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF6F31102FAB656E00461C0B /* SwiftUI.framework in Frameworks */,
+				AF6F310E2FAB656E00461C0B /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +219,11 @@
 				AF6F305B2FAB375500461C0B /* LuluHealth */,
 				AF6F306D2FAB375700461C0B /* LuluHealthTests */,
 				AF6F30772FAB375700461C0B /* LuluHealthUITests */,
+				AF6F30DD2FAB642200461C0B /* LuluHealthWatch Watch App */,
+				AF6F30EB2FAB642300461C0B /* LuluHealthWatch Watch AppTests */,
+				AF6F30F52FAB642300461C0B /* LuluHealthWatch Watch AppUITests */,
+				AF6F31112FAB656E00461C0B /* LuluHealthWidget */,
+				AF6F310C2FAB656E00461C0B /* Frameworks */,
 				AF6F305A2FAB375500461C0B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,8 +234,21 @@
 				AF6F30592FAB375500461C0B /* LuluHealth.app */,
 				AF6F306A2FAB375700461C0B /* LuluHealthTests.xctest */,
 				AF6F30742FAB375700461C0B /* LuluHealthUITests.xctest */,
+				AF6F30DC2FAB642200461C0B /* LuluHealthWatch Watch App.app */,
+				AF6F30E82FAB642300461C0B /* LuluHealthWatch Watch AppTests.xctest */,
+				AF6F30F22FAB642300461C0B /* LuluHealthWatch Watch AppUITests.xctest */,
+				AF6F310B2FAB656E00461C0B /* LuluHealthWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AF6F310C2FAB656E00461C0B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF6F310D2FAB656E00461C0B /* WidgetKit.framework */,
+				AF6F310F2FAB656E00461C0B /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -115,16 +261,21 @@
 				AF6F30552FAB375500461C0B /* Sources */,
 				AF6F30562FAB375500461C0B /* Frameworks */,
 				AF6F30572FAB375500461C0B /* Resources */,
+				AF6F31002FAB642300461C0B /* Embed Watch Content */,
+				AF6F31222FAB656F00461C0B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AF6F30FB2FAB642300461C0B /* PBXTargetDependency */,
+				AF6F311C2FAB656F00461C0B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AF6F305B2FAB375500461C0B /* LuluHealth */,
 			);
 			name = LuluHealth;
 			packageProductDependencies = (
+				AF7B00032FB0000100461C0B /* Lottie */,
 			);
 			productName = LuluHealth;
 			productReference = AF6F30592FAB375500461C0B /* LuluHealth.app */;
@@ -176,6 +327,96 @@
 			productReference = AF6F30742FAB375700461C0B /* LuluHealthUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		AF6F30DB2FAB642200461C0B /* LuluHealthWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF6F30FD2FAB642300461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWatch Watch App" */;
+			buildPhases = (
+				AF6F30D82FAB642200461C0B /* Sources */,
+				AF6F30D92FAB642200461C0B /* Frameworks */,
+				AF6F30DA2FAB642200461C0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AF6F30DD2FAB642200461C0B /* LuluHealthWatch Watch App */,
+			);
+			name = "LuluHealthWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "LuluHealthWatch Watch App";
+			productReference = AF6F30DC2FAB642200461C0B /* LuluHealthWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AF6F30E72FAB642300461C0B /* LuluHealthWatch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF6F31012FAB642300461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWatch Watch AppTests" */;
+			buildPhases = (
+				AF6F30E42FAB642300461C0B /* Sources */,
+				AF6F30E52FAB642300461C0B /* Frameworks */,
+				AF6F30E62FAB642300461C0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF6F30EA2FAB642300461C0B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AF6F30EB2FAB642300461C0B /* LuluHealthWatch Watch AppTests */,
+			);
+			name = "LuluHealthWatch Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "LuluHealthWatch Watch AppTests";
+			productReference = AF6F30E82FAB642300461C0B /* LuluHealthWatch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AF6F30F12FAB642300461C0B /* LuluHealthWatch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF6F31042FAB642300461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWatch Watch AppUITests" */;
+			buildPhases = (
+				AF6F30EE2FAB642300461C0B /* Sources */,
+				AF6F30EF2FAB642300461C0B /* Frameworks */,
+				AF6F30F02FAB642300461C0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF6F30F42FAB642300461C0B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AF6F30F52FAB642300461C0B /* LuluHealthWatch Watch AppUITests */,
+			);
+			name = "LuluHealthWatch Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "LuluHealthWatch Watch AppUITests";
+			productReference = AF6F30F22FAB642300461C0B /* LuluHealthWatch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		AF6F310A2FAB656E00461C0B /* LuluHealthWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF6F311E2FAB656F00461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWidgetExtension" */;
+			buildPhases = (
+				AF6F31072FAB656E00461C0B /* Sources */,
+				AF6F31082FAB656E00461C0B /* Frameworks */,
+				AF6F31092FAB656E00461C0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AF6F31112FAB656E00461C0B /* LuluHealthWidget */,
+			);
+			name = LuluHealthWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = LuluHealthWidgetExtension;
+			productReference = AF6F310B2FAB656E00461C0B /* LuluHealthWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,6 +438,20 @@
 						CreatedOnToolsVersion = 26.4;
 						TestTargetID = AF6F30582FAB375500461C0B;
 					};
+					AF6F30DB2FAB642200461C0B = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					AF6F30E72FAB642300461C0B = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = AF6F30DB2FAB642200461C0B;
+					};
+					AF6F30F12FAB642300461C0B = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = AF6F30DB2FAB642200461C0B;
+					};
+					AF6F310A2FAB656E00461C0B = {
+						CreatedOnToolsVersion = 26.4;
+					};
 				};
 			};
 			buildConfigurationList = AF6F30542FAB375500461C0B /* Build configuration list for PBXProject "LuluHealth" */;
@@ -208,6 +463,9 @@
 			);
 			mainGroup = AF6F30502FAB375500461C0B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AF7B00022FB0000100461C0B /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AF6F305A2FAB375500461C0B /* Products */;
 			projectDirPath = "";
@@ -216,6 +474,10 @@
 				AF6F30582FAB375500461C0B /* LuluHealth */,
 				AF6F30692FAB375700461C0B /* LuluHealthTests */,
 				AF6F30732FAB375700461C0B /* LuluHealthUITests */,
+				AF6F30DB2FAB642200461C0B /* LuluHealthWatch Watch App */,
+				AF6F30E72FAB642300461C0B /* LuluHealthWatch Watch AppTests */,
+				AF6F30F12FAB642300461C0B /* LuluHealthWatch Watch AppUITests */,
+				AF6F310A2FAB656E00461C0B /* LuluHealthWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +498,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AF6F30722FAB375700461C0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F30DA2FAB642200461C0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F30E62FAB642300461C0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F30F02FAB642300461C0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F31092FAB656E00461C0B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,6 +556,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AF6F30D82FAB642200461C0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F30E42FAB642300461C0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F30EE2FAB642300461C0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6F31072FAB656E00461C0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -278,6 +596,26 @@
 			isa = PBXTargetDependency;
 			target = AF6F30582FAB375500461C0B /* LuluHealth */;
 			targetProxy = AF6F30752FAB375700461C0B /* PBXContainerItemProxy */;
+		};
+		AF6F30EA2FAB642300461C0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF6F30DB2FAB642200461C0B /* LuluHealthWatch Watch App */;
+			targetProxy = AF6F30E92FAB642300461C0B /* PBXContainerItemProxy */;
+		};
+		AF6F30F42FAB642300461C0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF6F30DB2FAB642200461C0B /* LuluHealthWatch Watch App */;
+			targetProxy = AF6F30F32FAB642300461C0B /* PBXContainerItemProxy */;
+		};
+		AF6F30FB2FAB642300461C0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF6F30DB2FAB642200461C0B /* LuluHealthWatch Watch App */;
+			targetProxy = AF6F30FA2FAB642300461C0B /* PBXContainerItemProxy */;
+		};
+		AF6F311C2FAB656F00461C0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF6F310A2FAB656E00461C0B /* LuluHealthWidgetExtension */;
+			targetProxy = AF6F311B2FAB656F00461C0B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -296,6 +634,8 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LuluHealth/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "小鹿健康";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -341,6 +681,8 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LuluHealth/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "小鹿健康";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -590,6 +932,249 @@
 			};
 			name = Release;
 		};
+		AF6F30FE2FAB642300461C0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LuluHealthWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = aegislabs.LuluHealth;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aegislabs.LuluHealth.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		AF6F30FF2FAB642300461C0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LuluHealthWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = aegislabs.LuluHealth;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aegislabs.LuluHealth.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
+		AF6F31022FAB642300461C0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "aegislabs.LuluHealthWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LuluHealthWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LuluHealthWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		AF6F31032FAB642300461C0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "aegislabs.LuluHealthWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LuluHealthWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LuluHealthWatch Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
+		AF6F31052FAB642300461C0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "aegislabs.LuluHealthWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "LuluHealthWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		AF6F31062FAB642300461C0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "aegislabs.LuluHealthWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "LuluHealthWatch Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
+		AF6F311F2FAB656F00461C0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LuluHealthWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LuluHealthWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aegislabs.LuluHealth.LuluHealthWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		AF6F31202FAB656F00461C0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9CQLSA84R;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LuluHealthWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LuluHealthWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aegislabs.LuluHealth.LuluHealthWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -629,7 +1214,62 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AF6F30FD2FAB642300461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF6F30FE2FAB642300461C0B /* Debug */,
+				AF6F30FF2FAB642300461C0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF6F31012FAB642300461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWatch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF6F31022FAB642300461C0B /* Debug */,
+				AF6F31032FAB642300461C0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF6F31042FAB642300461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWatch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF6F31052FAB642300461C0B /* Debug */,
+				AF6F31062FAB642300461C0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF6F311E2FAB656F00461C0B /* Build configuration list for PBXNativeTarget "LuluHealthWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF6F311F2FAB656F00461C0B /* Debug */,
+				AF6F31202FAB656F00461C0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AF7B00022FB0000100461C0B /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AF7B00032FB0000100461C0B /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF7B00022FB0000100461C0B /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AF6F30512FAB375500461C0B /* Project object */;
 }
