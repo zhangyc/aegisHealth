@@ -38,6 +38,7 @@ private enum AppSection: String, CaseIterable, Identifiable {
 }
 
 struct ContentView: View {
+    @EnvironmentObject private var appModel: AppModel
     @State private var selection: AppSection = .today
 
     var body: some View {
@@ -56,6 +57,10 @@ struct ContentView: View {
         }
         .tint(AppTheme.Colors.energyCore)
         .preferredColorScheme(.dark)
+        .sheet(item: $appModel.activeLogCapture) { kind in
+            LogCaptureSheet(kind: kind)
+                .presentationDetents([.medium, .large])
+        }
     }
 
     private var compactShell: some View {
@@ -91,7 +96,7 @@ struct ContentView: View {
     private func appSectionView(_ section: AppSection) -> some View {
         switch section {
         case .today:
-            TodayView(snapshot: TodayMockData.main)
+            TodayView(snapshot: appModel.todaySnapshot)
         case .journey:
             JourneyView()
         case .log:

@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>小鹿健康需要读取你的燃烧、摄入、体重和训练数据，来生成真实的人体能量流。</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>小鹿健康会在你主动记录饮食、体重或训练时，把数据写回 Apple Health。</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

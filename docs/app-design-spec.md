@@ -514,7 +514,7 @@ Insights can ship as a lighter placeholder in MVP if needed.
 ### Step 4
 
 - add motion
-- add mock data
+- add empty-state data
 - connect HealthKit
 
 ## 12. Engineering Mapping

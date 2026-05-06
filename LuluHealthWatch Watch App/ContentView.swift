@@ -31,29 +31,30 @@ private struct WatchEnergySnapshot {
     let goalProgress: Double
     let status: String
     let nextStep: String
+    let burnTrend: [Double]
 
-    static let mock = WatchEnergySnapshot(
-        burned: 2_346,
-        intake: 1_842,
-        balance: -504,
-        active: 2_012,
-        resting: 334,
-        goalProgress: 0.78,
-        status: "稳定赤字",
-        nextStep: "今晚再走 18 分钟，赤字会更稳。"
+    static let empty = WatchEnergySnapshot(
+        burned: 0,
+        intake: 0,
+        balance: 0,
+        active: 0,
+        resting: 0,
+        goalProgress: 0,
+        status: "等待同步",
+        nextStep: "先在 iPhone 里授权 Health。",
+        burnTrend: []
     )
 }
 
 struct ContentView: View {
-    private let snapshot = WatchEnergySnapshot.mock
+    private let snapshot = WatchEnergySnapshot.empty
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 WatchHero(snapshot: snapshot)
-                WatchBalanceStrip(snapshot: snapshot)
-                WatchSourceRow(snapshot: snapshot)
-                WatchReminderCard(message: snapshot.nextStep)
+                WatchBurnPanel(snapshot: snapshot)
+                WatchCommandCard(message: snapshot.nextStep)
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 8)
@@ -74,15 +75,15 @@ private struct WatchBackground: View {
 
             Circle()
                 .fill(WatchTheme.energy.opacity(0.22))
-                .frame(width: 120, height: 120)
-                .blur(radius: 36)
-                .offset(x: 44, y: -38)
+                .frame(width: 118, height: 118)
+                .blur(radius: 34)
+                .offset(x: 42, y: -32)
 
             Circle()
-                .fill(WatchTheme.intake.opacity(0.12))
-                .frame(width: 110, height: 110)
-                .blur(radius: 34)
-                .offset(x: -42, y: 84)
+                .fill(WatchTheme.intake.opacity(0.10))
+                .frame(width: 106, height: 106)
+                .blur(radius: 30)
+                .offset(x: -42, y: 88)
         }
         .ignoresSafeArea()
     }
@@ -94,8 +95,8 @@ private struct WatchHero: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Today Burn")
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Now Burning")
                         .font(.caption2.weight(.semibold))
                         .foregroundStyle(WatchTheme.textTertiary)
                     Text(snapshot.status)
@@ -105,12 +106,12 @@ private struct WatchHero: View {
 
                 Spacer()
 
-                EnergyRing(progress: snapshot.goalProgress)
+                ProgressHalo(progress: snapshot.goalProgress)
             }
 
             HStack(alignment: .bottom, spacing: 4) {
-                Text("\(snapshot.burned)")
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                Text("\(abs(snapshot.balance))")
+                    .font(.system(size: 32, weight: .bold, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(WatchTheme.textPrimary)
                 Text("kcal")
@@ -119,20 +120,16 @@ private struct WatchHero: View {
                     .padding(.bottom, 4)
             }
 
-            Text("身体正在持续燃烧与转化能量。")
+            Text(snapshot.status == "等待同步" ? "手表端暂时还没有真实能量数据。" : snapshot.balance < 0 ? "缺口正在扩大。" : "积压正在增加。")
                 .font(.caption2)
                 .foregroundStyle(WatchTheme.textSecondary)
-
-            EnergyFlowBand()
-                .frame(height: 54)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
         .padding(12)
         .background(WatchGlassCard())
     }
 }
 
-private struct EnergyRing: View {
+private struct ProgressHalo: View {
     let progress: Double
 
     var body: some View {
@@ -150,108 +147,135 @@ private struct EnergyRing: View {
                 )
                 .rotationEffect(.degrees(-90))
 
-            VStack(spacing: 1) {
-                Text("\(Int(progress * 100))%")
-                    .font(.caption2.weight(.bold))
-                    .foregroundStyle(WatchTheme.textPrimary)
-                Text("goal")
-                    .font(.system(size: 8, weight: .medium))
-                    .foregroundStyle(WatchTheme.textTertiary)
-            }
+            Text("\(Int(progress * 100))%")
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(WatchTheme.textPrimary)
         }
-        .frame(width: 52, height: 52)
+        .frame(width: 50, height: 50)
     }
 }
 
-private struct EnergyFlowBand: View {
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color.white.opacity(0.03))
-
-            HStack(spacing: 0) {
-                Capsule()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                WatchTheme.intake.opacity(0.20),
-                                WatchTheme.energy.opacity(0.85),
-                                WatchTheme.warm.opacity(0.95)
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .blur(radius: 2)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 14)
-            }
-
-            HStack(spacing: 10) {
-                GlowNode(color: WatchTheme.intake, size: 9)
-                GlowNode(color: WatchTheme.energy, size: 14)
-                GlowNode(color: WatchTheme.warm, size: 10)
-            }
-        }
-    }
-}
-
-private struct GlowNode: View {
-    let color: Color
-    let size: CGFloat
-
-    var body: some View {
-        Circle()
-            .fill(color)
-            .frame(width: size, height: size)
-            .shadow(color: color.opacity(0.65), radius: 8)
-    }
-}
-
-private struct WatchBalanceStrip: View {
+private struct WatchBurnPanel: View {
     let snapshot: WatchEnergySnapshot
 
     var body: some View {
-        HStack(spacing: 8) {
-            WatchMetricChip(
-                title: snapshot.balance < 0 ? "缺口" : "积压",
-                value: "\(abs(snapshot.balance))",
-                suffix: "kcal",
-                tint: snapshot.balance < 0 ? WatchTheme.deficit : WatchTheme.energy
-            )
-            WatchMetricChip(
-                title: "摄入",
-                value: "\(snapshot.intake)",
-                suffix: "kcal",
-                tint: WatchTheme.intake
-            )
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("实时燃烧")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(WatchTheme.textPrimary)
+                Spacer()
+                Text(snapshot.burnTrend.isEmpty ? "Sync" : "Now")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(snapshot.burnTrend.isEmpty ? WatchTheme.textTertiary : WatchTheme.energy)
+            }
+
+            WatchBurnTrend(trend: snapshot.burnTrend)
+                .frame(height: 78)
+
+            HStack(spacing: 8) {
+                WatchMiniMetric(title: "Active", value: snapshot.active, tint: WatchTheme.energy)
+                WatchMiniMetric(title: "Rest", value: snapshot.resting, tint: WatchTheme.intake)
+            }
+        }
+        .padding(12)
+        .background(WatchGlassCard())
+    }
+}
+
+private struct WatchBurnTrend: View {
+    let trend: [Double]
+
+    var body: some View {
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            let height = geometry.size.height
+            let maxValue = max(trend.max() ?? 1, 1)
+            let points = trend.enumerated().map { index, value in
+                CGPoint(
+                    x: width * CGFloat(index) / CGFloat(max(trend.count - 1, 1)),
+                    y: height - (height * CGFloat(value / maxValue))
+                )
+            }
+
+            ZStack(alignment: .bottomLeading) {
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(Color.white.opacity(0.03))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .stroke(Color.white.opacity(0.06), lineWidth: 1)
+                    )
+
+                ForEach(0..<2, id: \.self) { line in
+                    Rectangle()
+                        .fill(Color.white.opacity(0.05))
+                        .frame(height: 1)
+                        .offset(y: -CGFloat(line + 1) * height / 3)
+                }
+
+                if points.isEmpty {
+                    VStack(spacing: 4) {
+                        Text("No Live Burn Yet")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(WatchTheme.textSecondary)
+                        Text("等主 App 同步真实数据")
+                            .font(.caption2)
+                            .foregroundStyle(WatchTheme.textTertiary)
+                    }
+                }
+
+                Path { path in
+                    guard let first = points.first else { return }
+                    path.move(to: first)
+                    for point in points.dropFirst() {
+                        path.addLine(to: point)
+                    }
+                }
+                .stroke(
+                    LinearGradient(
+                        colors: [WatchTheme.warm, WatchTheme.energy, Color(red: 1.0, green: 0.35, blue: 0.30)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    style: StrokeStyle(lineWidth: 3.2, lineCap: .round, lineJoin: .round)
+                )
+                .shadow(color: WatchTheme.energy.opacity(0.45), radius: 8)
+
+                if let last = points.last {
+                    Circle()
+                        .fill(WatchTheme.warm)
+                        .frame(width: 8, height: 8)
+                        .shadow(color: WatchTheme.warm.opacity(0.65), radius: 8)
+                        .position(last)
+                }
+            }
         }
     }
 }
 
-private struct WatchMetricChip: View {
+private struct WatchMiniMetric: View {
     let title: String
-    let value: String
-    let suffix: String
+    let value: Int
     let tint: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
+        VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.caption2)
                 .foregroundStyle(WatchTheme.textTertiary)
-            HStack(alignment: .lastTextBaseline, spacing: 3) {
-                Text(value)
+            HStack(alignment: .firstTextBaseline, spacing: 3) {
+                Circle()
+                    .fill(tint)
+                    .frame(width: 7, height: 7)
+                Text("\(value)")
                     .font(.caption.weight(.semibold))
+                    .monospacedDigit()
                     .foregroundStyle(WatchTheme.textPrimary)
-                Text(suffix)
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundStyle(WatchTheme.textSecondary)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 10)
-        .padding(.vertical, 9)
+        .padding(.vertical, 8)
         .background(
             RoundedRectangle(cornerRadius: 14, style: .continuous)
                 .fill(tint.opacity(0.14))
@@ -263,42 +287,7 @@ private struct WatchMetricChip: View {
     }
 }
 
-private struct WatchSourceRow: View {
-    let snapshot: WatchEnergySnapshot
-
-    var body: some View {
-        HStack(spacing: 8) {
-            WatchSourceCard(title: "Active", value: snapshot.active, tint: WatchTheme.energy)
-            WatchSourceCard(title: "Rest", value: snapshot.resting, tint: WatchTheme.intake)
-        }
-    }
-}
-
-private struct WatchSourceCard: View {
-    let title: String
-    let value: Int
-    let tint: Color
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Circle()
-                .fill(tint)
-                .frame(width: 8, height: 8)
-                .shadow(color: tint.opacity(0.6), radius: 6)
-            Text(title)
-                .font(.caption2)
-                .foregroundStyle(WatchTheme.textTertiary)
-            Text("\(value)")
-                .font(.headline.monospacedDigit())
-                .foregroundStyle(WatchTheme.textPrimary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(10)
-        .background(WatchGlassCard(cornerRadius: 16))
-    }
-}
-
-private struct WatchReminderCard: View {
+private struct WatchCommandCard: View {
     let message: String
 
     var body: some View {
@@ -307,7 +296,10 @@ private struct WatchReminderCard: View {
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(WatchTheme.energy)
             Text(message)
-                .font(.caption)
+                .font(.caption.weight(.medium))
+                .foregroundStyle(WatchTheme.textPrimary)
+            Text("现在只需要一个动作。")
+                .font(.caption2)
                 .foregroundStyle(WatchTheme.textSecondary)
         }
         .padding(12)

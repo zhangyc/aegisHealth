@@ -30,15 +30,17 @@ private struct EnergyWidgetEntry: TimelineEntry {
     let balance: Int
     let goalProgress: Double
     let nextStep: String
+    let burnTrend: [Double]
+    let intakeMoments: [Double]
 }
 
 private struct EnergyWidgetProvider: TimelineProvider {
     func placeholder(in context: Context) -> EnergyWidgetEntry {
-        .mock
+        .empty
     }
 
     func getSnapshot(in context: Context, completion: @escaping (EnergyWidgetEntry) -> Void) {
-        completion(.mock)
+        completion(.empty)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<EnergyWidgetEntry>) -> Void) {
@@ -46,11 +48,13 @@ private struct EnergyWidgetProvider: TimelineProvider {
         let entries = stride(from: 0, through: 4, by: 1).map { hourOffset in
             EnergyWidgetEntry(
                 date: Calendar.current.date(byAdding: .hour, value: hourOffset, to: now) ?? now,
-                burned: 2_346,
-                intake: 1_842,
-                balance: -504,
-                goalProgress: 0.78,
-                nextStep: "再走 18 分钟，今晚赤字会更稳。"
+                burned: 0,
+                intake: 0,
+                balance: 0,
+                goalProgress: 0,
+                nextStep: "等主 App 同步真实 Health 数据。",
+                burnTrend: [],
+                intakeMoments: []
             )
         }
 
@@ -59,25 +63,36 @@ private struct EnergyWidgetProvider: TimelineProvider {
 }
 
 private extension EnergyWidgetEntry {
-    static let mock = EnergyWidgetEntry(
+    static let empty = EnergyWidgetEntry(
         date: .now,
-        burned: 2_346,
-        intake: 1_842,
-        balance: -504,
-        goalProgress: 0.78,
-        nextStep: "再走 18 分钟，今晚赤字会更稳。"
+        burned: 0,
+        intake: 0,
+        balance: 0,
+        goalProgress: 0,
+        nextStep: "等主 App 同步真实 Health 数据。",
+        burnTrend: [],
+        intakeMoments: []
     )
 
     var balanceTitle: String {
-        balance < 0 ? "能量缺口" : "能量积压"
+        if burned == 0, intake == 0, burnTrend.isEmpty {
+            return "等待同步"
+        }
+        return balance < 0 ? "能量缺口" : "能量积压"
     }
 
     var balanceColor: Color {
-        balance < 0 ? WidgetTheme.deficit : WidgetTheme.energy
+        if burned == 0, intake == 0, burnTrend.isEmpty {
+            return WidgetTheme.textSecondary
+        }
+        return balance < 0 ? WidgetTheme.deficit : WidgetTheme.energy
     }
 
     var balanceDescription: String {
-        balance < 0 ? "你今天还在稳定赤字区间。" : "你今天已经进入热量盈余。"
+        if burned == 0, intake == 0, burnTrend.isEmpty {
+            return "Widget 还没收到真实的能量趋势。"
+        }
+        return balance < 0 ? "你今天还在稳定赤字区间。" : "你今天已经进入热量盈余。"
     }
 }
 
@@ -134,50 +149,67 @@ private struct LuluHealthWidgetEntryView: View {
         ZStack {
             WidgetBackground()
 
-            HStack(spacing: 14) {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(entry.balanceTitle)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(entry.balanceColor)
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(entry.balanceTitle)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(entry.balanceColor)
 
-                    HStack(alignment: .firstTextBaseline, spacing: 4) {
-                        Text("\(abs(entry.balance))")
-                            .font(.system(size: 34, weight: .bold, design: .rounded))
-                            .monospacedDigit()
-                            .foregroundStyle(WidgetTheme.textPrimary)
-                        Text("kcal")
-                            .font(.headline)
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            Text("\(abs(entry.balance))")
+                                .font(.system(size: 34, weight: .bold, design: .rounded))
+                                .monospacedDigit()
+                                .foregroundStyle(WidgetTheme.textPrimary)
+                            Text("kcal")
+                                .font(.headline)
+                                .foregroundStyle(WidgetTheme.textSecondary)
+                        }
+
+                        Text(entry.burnTrend.isEmpty ? "等主 App 同步后再显示实时燃烧。" : "实时燃烧正在\(entry.balance < 0 ? "扩大缺口" : "推高积压")")
+                            .font(.caption)
                             .foregroundStyle(WidgetTheme.textSecondary)
                     }
 
-                    Text(entry.balanceDescription)
-                        .font(.caption)
-                        .foregroundStyle(WidgetTheme.textSecondary)
+                    Spacer()
 
-                    EnergyBand()
-                        .frame(height: 46)
-
-                    Text(entry.nextStep)
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(WidgetTheme.textPrimary)
-                        .lineLimit(2)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(
-                            Capsule(style: .continuous)
-                                .fill(WidgetTheme.glass)
-                                .overlay(
-                                    Capsule(style: .continuous)
-                                        .stroke(WidgetTheme.stroke, lineWidth: 1)
-                                )
-                        )
+                    VStack(alignment: .trailing, spacing: 8) {
+                        LargeRing(progress: entry.goalProgress)
+                        HStack(spacing: 8) {
+                            metricChip(title: "摄入", value: entry.intake, tint: WidgetTheme.intake)
+                            metricChip(title: "燃烧", value: entry.burned, tint: WidgetTheme.energy)
+                        }
+                        .frame(width: 120)
+                    }
                 }
 
-                VStack(alignment: .trailing, spacing: 12) {
-                    LargeRing(progress: entry.goalProgress)
-                    metricChip(title: "摄入", value: entry.intake, tint: WidgetTheme.intake)
-                    metricChip(title: "燃烧", value: entry.burned, tint: WidgetTheme.energy)
+                BurnTrendChart(burnTrend: entry.burnTrend, intakeMoments: entry.intakeMoments)
+                    .frame(height: 92)
+
+                HStack {
+                    Text("12 AM")
+                        .font(.caption2)
+                        .foregroundStyle(WidgetTheme.textTertiary)
+                    Spacer()
+                    Text(entry.burnTrend.isEmpty ? "Sync" : "Now")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(entry.burnTrend.isEmpty ? WidgetTheme.textTertiary : WidgetTheme.energy)
                 }
+
+                Text(entry.nextStep)
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(WidgetTheme.textPrimary)
+                    .lineLimit(2)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        Capsule(style: .continuous)
+                            .fill(WidgetTheme.glass)
+                            .overlay(
+                                Capsule(style: .continuous)
+                                    .stroke(WidgetTheme.stroke, lineWidth: 1)
+                            )
+                    )
             }
             .padding(18)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -205,6 +237,94 @@ private struct LuluHealthWidgetEntryView: View {
                         .stroke(tint.opacity(0.18), lineWidth: 1)
                 )
         )
+    }
+}
+
+private struct BurnTrendChart: View {
+    let burnTrend: [Double]
+    let intakeMoments: [Double]
+
+    var body: some View {
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            let height = geometry.size.height
+            let maxValue = max((burnTrend + intakeMoments).max() ?? 1, 1)
+            let burnPoints = burnTrend.enumerated().map { index, value in
+                CGPoint(
+                    x: width * CGFloat(index) / CGFloat(max(burnTrend.count - 1, 1)),
+                    y: height - (height * CGFloat(value / maxValue))
+                )
+            }
+
+            ZStack(alignment: .bottomLeading) {
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(Color.white.opacity(0.03))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .stroke(Color.white.opacity(0.06), lineWidth: 1)
+                    )
+
+                ForEach(0..<3, id: \.self) { line in
+                    Rectangle()
+                        .fill(Color.white.opacity(0.05))
+                        .frame(height: 1)
+                        .offset(y: -CGFloat(line + 1) * height / 4)
+                }
+
+                if burnPoints.isEmpty {
+                    VStack(spacing: 4) {
+                        Text("No Live Burn Yet")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(WidgetTheme.textSecondary)
+                        Text("等待主 App 同步真实趋势")
+                            .font(.caption2)
+                            .foregroundStyle(WidgetTheme.textTertiary)
+                    }
+                }
+
+                HStack(alignment: .bottom, spacing: 0) {
+                    ForEach(Array(intakeMoments.enumerated()), id: \.offset) { index, value in
+                        RoundedRectangle(cornerRadius: 3, style: .continuous)
+                            .fill(WidgetTheme.intake.opacity(value > 0 ? 0.7 : 0.18))
+                            .frame(
+                                width: max(width / CGFloat(max(intakeMoments.count, 1)) - 4, 4),
+                                height: max(height * CGFloat(value), 4)
+                            )
+                            .offset(y: -6)
+                        if index != intakeMoments.count - 1 {
+                            Spacer(minLength: 0)
+                        }
+                    }
+                }
+                .padding(.horizontal, 8)
+                .padding(.bottom, 6)
+
+                Path { path in
+                    guard let first = burnPoints.first else { return }
+                    path.move(to: first)
+                    for point in burnPoints.dropFirst() {
+                        path.addLine(to: point)
+                    }
+                }
+                .stroke(
+                    LinearGradient(
+                        colors: [WidgetTheme.warm, WidgetTheme.energy, Color(red: 1.0, green: 0.35, blue: 0.30)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    style: StrokeStyle(lineWidth: 3.5, lineCap: .round, lineJoin: .round)
+                )
+                .shadow(color: WidgetTheme.energy.opacity(0.45), radius: 8)
+
+                if let last = burnPoints.last {
+                    Circle()
+                        .fill(WidgetTheme.warm)
+                        .frame(width: 8, height: 8)
+                        .shadow(color: WidgetTheme.warm.opacity(0.65), radius: 8)
+                        .position(last)
+                }
+            }
+        }
     }
 }
 
@@ -349,11 +469,11 @@ struct LuluHealthWidget: Widget {
 #Preview(as: .systemSmall) {
     LuluHealthWidget()
 } timeline: {
-    EnergyWidgetEntry.mock
+    EnergyWidgetEntry.empty
 }
 
 #Preview(as: .systemMedium) {
     LuluHealthWidget()
 } timeline: {
-    EnergyWidgetEntry.mock
+    EnergyWidgetEntry.empty
 }

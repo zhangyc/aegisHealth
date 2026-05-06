@@ -5,33 +5,18 @@
 //  Created by Codex on 2026/5/6.
 //
 
-import Charts
 import SwiftUI
 
-private struct InsightHourPoint: Identifiable {
-    let id = UUID()
-    let hour: String
-    let intake: Int
-    let burn: Int
-}
-
-private let insightHours = [
-    InsightHourPoint(hour: "6", intake: 0, burn: 120),
-    InsightHourPoint(hour: "9", intake: 420, burn: 310),
-    InsightHourPoint(hour: "12", intake: 780, burn: 620),
-    InsightHourPoint(hour: "15", intake: 900, burn: 980),
-    InsightHourPoint(hour: "18", intake: 1420, burn: 1560),
-    InsightHourPoint(hour: "21", intake: 1842, burn: 2346)
-]
-
 struct InsightsView: View {
+    @EnvironmentObject private var appModel: AppModel
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppTheme.Spacing.xl) {
                 InsightsHero()
-                InsightsPatternChart()
-                InsightsFindings()
-                InsightsBestWindow()
+                InsightsDataState()
+                InsightsSignalState()
+                InsightWindowCard()
             }
             .padding(.horizontal, AppTheme.Spacing.lg)
             .padding(.top, AppTheme.Spacing.md)
@@ -43,109 +28,28 @@ struct InsightsView: View {
 }
 
 private struct InsightsHero: View {
+    @EnvironmentObject private var appModel: AppModel
+
     var body: some View {
         GlassCard {
-            VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
-                SectionTitle(eyebrow: "Insights", title: "行为洞察")
-                Text("找出你最容易形成赤字的行为，而不是只看总卡路里。")
-                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.lg) {
+                SectionTitle(eyebrow: "Insights", title: "代谢洞察")
+                Text("洞察必须建立在真实样本上，不然只是漂亮的猜测。")
+                    .font(.title3.weight(.medium))
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
                 HStack(spacing: AppTheme.Spacing.md) {
-                    InsightBadge(title: "下午 4-7 点最稳", color: AppTheme.Colors.deficit)
-                    InsightBadge(title: "周末最容易超吃", color: AppTheme.Colors.heatMagenta)
+                    InsightHeroTag(title: appModel.healthAccessState == .authorized ? "Health 已接入" : "先授权 Health", tint: appModel.healthAccessState == .authorized ? AppTheme.Colors.deficit : AppTheme.Colors.heatMagenta)
+                    InsightHeroTag(title: appModel.hasTodayData ? "今日数据已进入" : "今天还没有足够样本", tint: AppTheme.Colors.energyCore)
                 }
             }
         }
     }
 }
 
-private struct InsightsPatternChart: View {
-    var body: some View {
-        GlassCard {
-            VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
-                Text("今日能量交汇")
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(AppTheme.Colors.textPrimary)
-
-                Chart(insightHours) { point in
-                    LineMark(x: .value("Hour", point.hour), y: .value("Intake", point.intake))
-                        .foregroundStyle(AppTheme.Colors.intake)
-                        .lineStyle(.init(lineWidth: 3, lineCap: .round))
-                    LineMark(x: .value("Hour", point.hour), y: .value("Burn", point.burn))
-                        .foregroundStyle(AppTheme.Colors.energyCore)
-                        .lineStyle(.init(lineWidth: 3, lineCap: .round))
-                }
-                .frame(height: 220)
-                .chartYAxis {
-                    AxisMarks(position: .leading) {
-                        AxisGridLine(stroke: StrokeStyle(lineWidth: 1))
-                            .foregroundStyle(AppTheme.Colors.strokeSoft)
-                        AxisValueLabel()
-                            .foregroundStyle(AppTheme.Colors.textTertiary)
-                    }
-                }
-                .chartXAxis {
-                    AxisMarks {
-                        AxisValueLabel()
-                            .foregroundStyle(AppTheme.Colors.textTertiary)
-                    }
-                }
-
-                HStack(spacing: 16) {
-                    InsightLegend(title: "摄入", color: AppTheme.Colors.intake)
-                    InsightLegend(title: "燃烧", color: AppTheme.Colors.energyCore)
-                }
-            }
-        }
-    }
-}
-
-private struct InsightsFindings: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
-            Text("今天发现")
-                .font(.title3.weight(.semibold))
-                .foregroundStyle(AppTheme.Colors.textPrimary)
-
-            ForEach([
-                ("上午补给偏少，导致午餐摄入过快。", AppTheme.Colors.heatMagenta),
-                ("下午活动把摄入反超，形成了今天最关键的赤字窗口。", AppTheme.Colors.deficit),
-                ("晚间如果再加 20 分钟步行，今天赤字会更稳。", AppTheme.Colors.energyCore)
-            ], id: \.0) { finding in
-                GlassCard {
-                    HStack(alignment: .top, spacing: 12) {
-                        Circle()
-                            .fill(finding.1)
-                            .frame(width: 10, height: 10)
-                            .padding(.top, 6)
-                        Text(finding.0)
-                            .foregroundStyle(AppTheme.Colors.textSecondary)
-                    }
-                }
-            }
-        }
-    }
-}
-
-private struct InsightsBestWindow: View {
-    var body: some View {
-        GlassCard {
-            VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
-                Text("最佳燃脂窗口")
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(AppTheme.Colors.textPrimary)
-                Text("16:20 - 19:10")
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
-                    .foregroundStyle(AppTheme.Colors.textPrimary)
-                Text("这个时间段你的运动消耗最容易超过摄入，建议把训练固定在这里。")
-                    .foregroundStyle(AppTheme.Colors.textSecondary)
-            }
-        }
-    }
-}
-
-private struct InsightBadge: View {
+private struct InsightHeroTag: View {
     let title: String
-    let color: Color
+    let tint: Color
 
     var body: some View {
         Text(title)
@@ -153,21 +57,92 @@ private struct InsightBadge: View {
             .foregroundStyle(AppTheme.Colors.textPrimary)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(Capsule(style: .continuous).fill(color.opacity(0.16)))
+            .background(
+                Capsule(style: .continuous)
+                    .fill(tint.opacity(0.16))
+                    .overlay(
+                        Capsule(style: .continuous)
+                            .stroke(tint.opacity(0.22), lineWidth: 1)
+                    )
+            )
     }
 }
 
-private struct InsightLegend: View {
-    let title: String
-    let color: Color
+private struct InsightsDataState: View {
+    var body: some View {
+        GlassCard {
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
+                Text("摄入与燃烧交汇")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+                Text("现在还没有足够的连续样本去判断你的真实交汇点。这里之后会基于小时级摄入和燃烧，给出真正可用的时间窗口。")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            }
+        }
+    }
+}
+
+private struct InsightsSignalState: View {
+    @EnvironmentObject private var appModel: AppModel
 
     var body: some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(color)
-                .frame(width: 8, height: 8)
-            Text(title)
-                .foregroundStyle(AppTheme.Colors.textSecondary)
+        VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
+            SectionTitle(eyebrow: "Signals", title: "当前缺的不是结论，是样本")
+
+            ForEach(signals, id: \.0) { item in
+                GlassCard {
+                    HStack(alignment: .top, spacing: AppTheme.Spacing.md) {
+                        RoundedRectangle(cornerRadius: 999, style: .continuous)
+                            .fill(item.1)
+                            .frame(width: 5)
+                        Text(item.0)
+                            .font(.subheadline)
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                    }
+                }
+            }
+        }
+    }
+
+    private var signals: [(String, Color)] {
+        [
+            (appModel.healthAccessState == .authorized ? "Health 权限已经接通，下一步要等更多真实样本进入。" : "先连上 Apple Health，不然洞察页没有任何真实基础。", AppTheme.Colors.heatMagenta),
+            ("至少要有连续的摄入、燃烧和体重记录，这里才配给结论。", AppTheme.Colors.energyCore),
+            ("在那之前，这页宁可空着，也不再拿假图假结论糊弄。", AppTheme.Colors.intake)
+        ]
+    }
+}
+
+private struct InsightWindowCard: View {
+    @EnvironmentObject private var appModel: AppModel
+
+    var body: some View {
+        GlassCard {
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
+                Text("下一步")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+                Text("先补真实训练或饮食记录。")
+                    .font(.title3.weight(.medium))
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+                Text("洞察页应该从真实行为里长出来，而不是从假数据里画出来。")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+
+                Button {
+                    appModel.openLogCapture(.workout)
+                } label: {
+                    Text("去补训练记录")
+                        .font(.headline)
+                        .foregroundStyle(AppTheme.Colors.textPrimary)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(AppTheme.Colors.energyCore.opacity(0.18))
+                        )
+                }
+                .buttonStyle(.plain)
+            }
         }
     }
 }

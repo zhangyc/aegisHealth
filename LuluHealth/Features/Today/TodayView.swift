@@ -9,17 +9,25 @@ import Charts
 import SwiftUI
 
 struct TodayView: View {
+    @EnvironmentObject private var appModel: AppModel
     let snapshot: TodaySnapshot
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppTheme.Spacing.xl) {
+                if appModel.healthAccessState != .authorized {
+                    HealthAccessCard()
+                }
                 TodayHeader(snapshot: snapshot)
-                BodyEnergyHero(snapshot: snapshot)
-                MetricGrid(metrics: snapshot.metrics)
-                BurnBreakdownSection(components: snapshot.components)
-                EnergyTimelineSection(points: snapshot.timeline)
-                RecommendationSection(message: snapshot.recommendation)
+                if appModel.hasTodayData {
+                    BodyEnergyHero(snapshot: snapshot)
+                    MetricGrid(metrics: snapshot.metrics)
+                    BurnBreakdownSection(components: snapshot.components)
+                    EnergyTimelineSection(points: snapshot.timeline)
+                    RecommendationSection(message: snapshot.recommendation)
+                } else {
+                    TodayEmptyState()
+                }
             }
             .padding(.horizontal, AppTheme.Spacing.lg)
             .padding(.top, AppTheme.Spacing.md)
@@ -30,7 +38,109 @@ struct TodayView: View {
     }
 }
 
+private struct HealthAccessCard: View {
+    @EnvironmentObject private var appModel: AppModel
+
+    var body: some View {
+        GlassCard {
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.md) {
+                Text("连接 Apple Health")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+                Text("先拿到燃烧、摄入和体重权限，首页才会变成真实的身体能量流。")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                HStack(spacing: AppTheme.Spacing.md) {
+                    Button {
+                        appModel.requestHealthAccess()
+                    } label: {
+                        Text("授权 Health")
+                            .font(.headline)
+                            .foregroundStyle(AppTheme.Colors.textPrimary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(
+                                Capsule(style: .continuous)
+                                    .fill(AppTheme.Colors.energyCore.opacity(0.18))
+                            )
+                    }
+                    .buttonStyle(.plain)
+
+                    Button {
+                        appModel.markHealthDenied()
+                    } label: {
+                        Text("稍后")
+                            .font(.headline)
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(
+                                Capsule(style: .continuous)
+                                    .fill(AppTheme.Colors.surfaceGlass)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+}
+
+private struct TodayEmptyState: View {
+    @EnvironmentObject private var appModel: AppModel
+
+    var body: some View {
+        GlassCard {
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.lg) {
+                Text("今天还没有形成能量图。")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+                Text("现在缺的不是设计，而是数据。连上 Health 或先补一条饮食 / 运动记录，首页就会开始燃烧起来。")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+
+                HStack(spacing: AppTheme.Spacing.md) {
+                    Button {
+                        appModel.openLogCapture(.intake)
+                    } label: {
+                        TodayEmptyAction(title: "补记饮食", tint: AppTheme.Colors.intake)
+                    }
+                    .buttonStyle(.plain)
+
+                    Button {
+                        appModel.openLogCapture(.workout)
+                    } label: {
+                        TodayEmptyAction(title: "补记运动", tint: AppTheme.Colors.energyCore)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+}
+
+private struct TodayEmptyAction: View {
+    let title: String
+    let tint: Color
+
+    var body: some View {
+        Text(title)
+            .font(.headline)
+            .foregroundStyle(AppTheme.Colors.textPrimary)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(
+                Capsule(style: .continuous)
+                    .fill(tint.opacity(0.18))
+                    .overlay(
+                        Capsule(style: .continuous)
+                            .stroke(tint.opacity(0.22), lineWidth: 1)
+                    )
+            )
+            .frame(maxWidth: .infinity)
+    }
+}
+
 private struct TodayHeader: View {
+    @EnvironmentObject private var appModel: AppModel
     let snapshot: TodaySnapshot
 
     var body: some View {
@@ -39,26 +149,26 @@ private struct TodayHeader: View {
                 Text(snapshot.title)
                     .font(.headline.weight(.medium))
                     .foregroundStyle(AppTheme.Colors.textSecondary)
-                Text("\(snapshot.burnedCalories.formatted()) kcal")
+                Text(appModel.hasTodayData ? "\(snapshot.burnedCalories.formatted()) kcal" : "--")
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(AppTheme.Colors.textPrimary)
-                Text("今日身体总燃烧")
+                Text(appModel.hasTodayData ? "今日身体总燃烧" : "等待今日能量数据")
                     .font(.subheadline)
                     .foregroundStyle(AppTheme.Colors.textSecondary)
             }
 
             Spacer()
 
-            Text(snapshot.status)
+            Text(appModel.hasTodayData ? snapshot.status : "No Data")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(AppTheme.Colors.textPrimary)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
                 .background(
                     Capsule(style: .continuous)
-                        .fill(AppTheme.Colors.deficit.opacity(0.18))
-                        .overlay(Capsule(style: .continuous).stroke(AppTheme.Colors.deficit.opacity(0.35), lineWidth: 1))
+                        .fill((appModel.hasTodayData ? AppTheme.Colors.deficit : AppTheme.Colors.textTertiary).opacity(0.18))
+                        .overlay(Capsule(style: .continuous).stroke((appModel.hasTodayData ? AppTheme.Colors.deficit : AppTheme.Colors.textTertiary).opacity(0.35), lineWidth: 1))
                 )
         }
     }
@@ -299,5 +409,5 @@ private struct RecommendationSection: View {
 }
 
 #Preview {
-    TodayView(snapshot: TodayMockData.main)
+    TodayView(snapshot: .placeholder)
 }
